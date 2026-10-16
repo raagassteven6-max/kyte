@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kyte · your inbox at a glance</title>
+  <meta name="description" content="A personal dashboard that shows new Gmail as cards.">
+  <meta name="color-scheme" content="light">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;600&amp;display=swap">
+  <link rel="stylesheet" href="/static/kyte.css">
+  <script src="/static/format.js" defer></script>
+  <script src="/static/kyte.js" defer></script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="kite" viewBox="0 0 32 44">
+      <path d="M16 1 29 14 16 31 3 14Z" fill="currentColor"/>
+      <path class="kite-cross" d="M16 1v30M3 14h26" fill="none" stroke-width="1.2"/>
+      <path d="M16 31c-5 3 5 5 0 8s5 4 0 4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </symbol>
+  </svg>
+
+  <a class="skip" href="#main">Skip to emails</a>
+
+  <header class="masthead">
+    <h1 class="brand">
+      <svg class="brand-mark" width="26" height="36" aria-hidden="true" focusable="false"><use href="#kite"/></svg>
+      Kyte
+    </h1>
+    <button id="refresh" class="btn" type="button">Refresh</button>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="inbox" aria-labelledby="inbox-heading">
+      <div class="summary">
+        <div>
+          <h2 id="inbox-heading" class="summary-title">Your inbox</h2>
+          <p id="status" class="status" role="status">Loading…</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter emails">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-filter="unread" aria-pressed="false">Unread</button>
+          <button class="chip" type="button" data-filter="today" aria-pressed="false">Today</button>
+        </div>
+      </div>
+
+      <div id="loading" class="cards skeletons" aria-hidden="true">
+        <div class="card-item"><div class="card skeleton"><span></span><span></span><span></span></div></div>
+        <div class="card-item"><div class="card skeleton"><span></span><span></span><span></span></div></div>
+        <div class="card-item"><div class="card skeleton"><span></span><span></span><span></span></div></div>
+      </div>
+
+      <div id="empty" class="notice" hidden>
+        <svg class="notice-mark" width="64" height="88" aria-hidden="true" focusable="false"><use href="#kite"/></svg>
+        <p id="empty-text" class="notice-text"></p>
+      </div>
+
+      <div id="error" class="notice" role="alert" hidden>
+        <p class="notice-text">Kyte couldn’t reach your mail just now.</p>
+        <button id="retry" class="btn" type="button">Try again</button>
+      </div>
+
+      <ul id="cards" class="cards" aria-labelledby="inbox-heading"></ul>
+    </section>
+  </main>
+
+  <template id="card-template">
+    <li class="card-item">
+      <article class="card">
+        <div class="card-head">
+          <span class="avatar" aria-hidden="true"></span>
+          <p class="sender"></p>
+          <p class="when"><time></time></p>
+        </div>
+        <h3 class="subject"></h3>
+        <p class="snippet"></p>
+        <div class="card-actions">
+          <a class="link" target="_blank" rel="noopener noreferrer">Open in Gmail</a>
+          <button class="btn btn-quiet dismiss" type="button">Dismiss</button>
+        </div>
+        <span class="new-tag">New</span>
+      </article>
+    </li>
+  </template>
+</body>
+</html>
